@@ -14,19 +14,13 @@ class Configs {
     const audioDevice: DeviceId | boolean =
       currentAudioDevice !== null ? { exact: currentAudioDevice } : true
 
-    const [w, h] = videoConfigs.aspectRatio.split('/').map(Number)
-    const aspectRatio = w / h
-
     const config: MediaStreamConstraint = {
       audio: {
         deviceId: audioDevice,
         echoCancellation: audioConfigs.echoCancellation,
         noiseSuppression: audioConfigs.noiseSuppression,
         autoGainControl: audioConfigs.autoGainControl,
-        sampleRate: audioConfigs.sampleRate,
-        sampleSize: audioConfigs.sampleSize,
-        channelCount: audioConfigs.channelCount,
-        latency: audioConfigs.latency
+        channelCount: audioConfigs.channelCount
       },
       video: {
         deviceId: videoDevice,
@@ -36,9 +30,7 @@ class Configs {
         height: {
           ideal: videoConfigs.height
         },
-        aspectRatio: aspectRatio,
-        frameRate: videoConfigs.frameRate,
-        facingMode: videoConfigs.facingMode,
+        frameRate: { ideal: videoConfigs.frameRate },
         resizeMode: videoConfigs.resizeMode
       }
     }
@@ -63,9 +55,7 @@ class Configs {
     return {
       width: 1920,
       height: 1080,
-      aspectRatio: '16 / 9',
       frameRate: 60,
-      facingMode: 'user',
       resizeMode: 'none'
     }
   }
@@ -101,10 +91,7 @@ class Configs {
       echoCancellation: false,
       noiseSuppression: false,
       autoGainControl: false,
-      sampleRate: 48000,
-      sampleSize: 24,
-      channelCount: 2,
-      latency: 0.01
+      channelCount: 2
     }
   }
 
