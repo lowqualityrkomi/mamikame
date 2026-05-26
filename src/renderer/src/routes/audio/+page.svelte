@@ -7,7 +7,6 @@
   console.log(audioConfigs)
 
   function save(): void {
-    console.log(audioConfigs)
     Configs.setAudioConfigs(audioConfigs)
   }
 

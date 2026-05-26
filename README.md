@@ -11,24 +11,32 @@ An Electron application with Svelte and TypeScript
 ### Install
 
 ```bash
-$ npm install
+npm install
 ```
 
 ### Development
 
 ```bash
-$ npm run dev
+npm run dev
 ```
+
+Then open the app in the Electron window. Use `npm run start` after building to preview a packaged app.
 
 ### Build
 
 ```bash
-# For windows
-$ npm run build:win
+npm run build
+```
+
+### Build for specific platforms
+
+```bash
+# For Windows
+npm run build:win
 
 # For macOS
-$ npm run build:mac
+npm run build:mac
 
 # For Linux
-$ npm run build:linux
+npm run build:linux
 ```

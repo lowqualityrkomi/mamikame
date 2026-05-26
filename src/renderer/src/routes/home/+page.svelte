@@ -3,17 +3,14 @@
   import { getDevices } from './helpers'
   import DeviceSelector from './components/DeviceSelector/+component.svelte'
   import VideoFeed from './components/VideoFeed/+component.svelte'
+  import Configs from '../../lib/configs'
 
   let audioInputDevices = $state<MediaDeviceInfo[]>([])
   let videoInputDevices = $state<MediaDeviceInfo[]>([])
   let isFullscreen: boolean = $state(false)
 
-  let selectedAudioInputDeviceId = $state<string>(
-    window.localStorage.getItem('selectedAudioInputDeviceId') || ''
-  )
-  let selectedVideoInputDeviceId = $state<string>(
-    window.localStorage.getItem('selectedVideoInputDeviceId') || ''
-  )
+  let selectedAudioInputDeviceId = $state<string>(Configs.getCurrentAudioDevice() ?? '')
+  let selectedVideoInputDeviceId = $state<string>(Configs.getCurrentVideoDevice() ?? '')
 
   onMount(async () => {
     await initDevices()
@@ -33,36 +30,28 @@
     }
   }
 
-  const handleChangeAudioInputDevice = (event: Event): void => {
+  const handleChangeAudioInputDevice = (customEvent: CustomEvent): void => {
+    const event = customEvent.detail
     const selectElement = event.target as HTMLSelectElement
     selectedAudioInputDeviceId = selectElement.value
-    window.localStorage.setItem('selectedAudioInputDeviceId', selectedAudioInputDeviceId)
+    Configs.setCurrentAudioDevice(selectedAudioInputDeviceId)
 
     initPreview()
   }
 
-  const handleChangeVideoInputDevice = (event: Event): void => {
+  const handleChangeVideoInputDevice = (customEvent: CustomEvent): void => {
+    const event = customEvent.detail
     const selectElement = event.target as HTMLSelectElement
     selectedVideoInputDeviceId = selectElement.value
-    window.localStorage.setItem('selectedVideoInputDeviceId', selectedVideoInputDeviceId)
+    Configs.setCurrentVideoDevice(selectedVideoInputDeviceId)
 
     initPreview()
   }
 
   const initPreview = async (): Promise<void> => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      audio: {
-        deviceId: { exact: selectedAudioInputDeviceId },
-        echoCancellation: false,
-        noiseSuppression: false,
-        autoGainControl: false
-      },
-      video: {
-        deviceId: { exact: selectedVideoInputDeviceId },
-        width: { ideal: 1920 },
-        height: { ideal: 1080 }
-      }
-    })
+    const streamConfigs = Configs.getVideoStreamConfig()
+    const stream = await navigator.mediaDevices.getUserMedia(streamConfigs)
+
     const videoElement = document.querySelector('video')
     if (videoElement) {
       videoElement.srcObject = stream
@@ -83,7 +72,7 @@
   <div class="flex gap-6 h-full w-full items-center justify-center">
     <!-- Video: 70% -->
     <VideoFeed {isFullscreen} on:fullscreenChange={() => (isFullscreen = !isFullscreen)}
-    ></VideoFeed>/>
+    ></VideoFeed>
 
     <!-- Settings panel: 30% -->
     <div
@@ -92,7 +81,7 @@
     >
       <DeviceSelector
         devices={videoInputDevices}
-        selectedDeviceId={selectedAudioInputDeviceId}
+        selectedDeviceId={selectedVideoInputDeviceId}
         on:change={handleChangeVideoInputDevice}
       />
 

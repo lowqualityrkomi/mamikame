@@ -5,7 +5,6 @@
 
   interface LayoutProps {
     children: Snippet<[]>
-    currentPath: string
   }
 
   let props: LayoutProps = $props()
@@ -28,7 +27,7 @@
   <!-- Bottom navigation -->
   <div class="shrink-0 flex justify-center items-center py-5">
     <div class="bg-accent rounded-full py-2.5 px-12 flex items-center gap-5">
-      <NavigationButton path="/" currentPath={props.currentPath} color="primary">
+      <NavigationButton path="/" color="text-primary">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
           <path
             fill="currentColor"
@@ -39,7 +38,7 @@
         </svg>
       </NavigationButton>
 
-      <NavigationButton path="/audio" currentPath={props.currentPath} color="secondary">
+      <NavigationButton path="/audio" color="text-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
           <g fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 18a4 4 0 1 1-8 0a4 4 0 0 1 8 0Zm0 0V6" />
@@ -51,7 +50,7 @@
         </svg>
       </NavigationButton>
 
-      <NavigationButton path="/video" currentPath={props.currentPath} color="tertiary">
+      <NavigationButton path="/video" color="text-tertiary">
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
           <path
             fill="currentColor"

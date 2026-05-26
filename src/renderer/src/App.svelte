@@ -1,25 +1,18 @@
 <script lang="ts">
   import Layout from './+layout.svelte'
+  import { currentRoute } from './lib/router'
 
   import HomeScreen from './routes/home/+page.svelte'
   import AudioScreen from './routes/audio/+page.svelte'
   import VideoScreen from './routes/video/+page.svelte'
 
-  let path: string = window.location.pathname
-
-  $: {
-    if (path !== window.location.pathname) {
-      path = window.location.pathname
-    }
+  const routes = {
+    '/': HomeScreen,
+    '/audio': AudioScreen,
+    '/video': VideoScreen
   }
 </script>
 
-<Layout currentPath={path}>
-  {#if path === '/'}
-    <HomeScreen />
-  {:else if path === '/audio'}
-    <AudioScreen />
-  {:else if path === '/video'}
-    <VideoScreen />
-  {/if}
+<Layout>
+  <svelte:component this={routes[$currentRoute]} />
 </Layout>
