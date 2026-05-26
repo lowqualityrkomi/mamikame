@@ -25,7 +25,7 @@ A lightweight desktop application for capturing video and audio from multiple so
 
 - **Operating System:** Windows, macOS, or Linux
 - **Bun:** 1.0 or higher (npm also supported)
-- **Disk Space:** ~348MB for installation
+- **Disk Space:** ~350MB for installation
 
 The application is lightweight and runs well on most systems.
 
